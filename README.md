@@ -57,7 +57,7 @@ L'application offre plusieurs fonctionnalités pour faciliter la gestion et le p
 2. Créez un environnement virtuel et activez-le :
     ```bash
     python -m venv venv
-    source venv/bin/activate  # Sur Windows, utilisez `venv\Scriptsctivate`
+    source venv/bin/activate  # Sur Windows, utilisez `venv\Scripts\activate`
     ```
 
 3. Installez les dépendances :
