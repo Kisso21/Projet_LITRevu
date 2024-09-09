@@ -7,13 +7,9 @@
 
 - [Aperçu du projet](#aperçu-du-projet)
 - [Fonctionnalités](#fonctionnalités)
-- [Pré-requis](#pré-requis)
 - [Installation](#installation)
 - [Utilisation](#utilisation)
 - [Comptes de test](#comptes-de-test)
-- [Structure du projet](#structure-du-projet)
-- [Syntaxe Markdown](#syntaxe-markdown)
-- [Licence](#licence)
 
 ## Aperçu du projet
 
