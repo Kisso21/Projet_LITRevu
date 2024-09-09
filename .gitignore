@@ -1,2 +1,3 @@
 # Ignorer les fichiers de configuration système
 .DS_Store
+.gitignore
