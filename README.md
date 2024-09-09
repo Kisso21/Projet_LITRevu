@@ -54,8 +54,8 @@ L'application offre plusieurs fonctionnalités pour faciliter la gestion et le p
 
 1. Clonez le dépôt :
     ```bash
-    git clone https://github.com/votre-utilisateur/LITReview.git
-    cd LITReview
+    git clone https://github.com/Kisso21/Projet_LITRevu.git
+    cd Litrevu
     ```
 
 2. Créez un environnement virtuel et activez-le :
