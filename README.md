@@ -55,7 +55,7 @@ L'application offre plusieurs fonctionnalités pour faciliter la gestion et le p
 1. Clonez le dépôt :
     ```bash
     git clone https://github.com/Kisso21/Projet_LITRevu.git
-    cd Litrevu
+    cd Projet_LITRevu
     ```
 
 2. Créez un environnement virtuel et activez-le :
@@ -71,6 +71,7 @@ L'application offre plusieurs fonctionnalités pour faciliter la gestion et le p
 
 4. Appliquez les migrations de la base de données :
     ```bash
+    cd litrevu
     python manage.py migrate
     ```
 
