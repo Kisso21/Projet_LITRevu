@@ -1,0 +1,106 @@
+{% extends 'litrevuweb/base.html' %}
+
+{% block title %}Flux{% endblock %}
+
+{% block content %}
+<main>
+    <h1>Flux d'Activités</h1>
+
+    <!-- Section des Billets des utilisateurs suivis -->
+    <div class="tickets-container">
+        <h2>Billets des utilisateurs suivis</h2>
+        {% for ticket in tickets %}
+            <div class="ticket">
+                <div class="ticket-content">
+                    {% if ticket.image %}
+                        <img src="{{ ticket.image.url }}" alt="Image du billet" class="ticket-image">
+                    {% endif %}
+                    <div class="ticket-info">
+                        <div class="ticket-header">
+                            <h3>{{ ticket.title }}</h3>
+                            <div class="ticket-actions">
+                                {% if request.user == ticket.user %}
+                                    <a href="{% url 'edit_ticket' ticket.id %}" title="Modifier" class="edit-button">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <form method="post" action="{% url 'delete_ticket' ticket.id %}" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="delete-button" title="Supprimer">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <p class="ticket-author">
+                            <strong>Créé par :</strong> {{ ticket.user.username }} ,
+                            {{ ticket.time_created|date:"M d, Y, g:i a" }}
+                        </p>
+                        <p class="ticket-description">{{ ticket.description }}</p>
+
+                        <!-- Affichage des critiques associées -->
+                        <h4>Critiques</h4>
+                        {% for review in ticket.reviews.all %}
+                            <div class="review">
+                                <div class="review-header">
+                                    <div class="review-author">
+                                        <strong>{{ review.user.username }}</strong>, {{ review.time_created|date:"d/m/Y H:i" }}
+                                    </div>
+                                    <div class="review-actions">
+                                        {% if request.user == review.user %}
+                                            <a href="{% url 'edit_review' review.id %}" title="Modifier" class="edit-button">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                            <form method="post" action="{% url 'delete_review' review.id %}" style="display:inline;">
+                                                {% csrf_token %}
+                                                <button type="submit" class="delete-button" title="Supprimer">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <p>{{ review.body }}</p>
+                                <p><strong>Note :</strong> {{ review.rating }}/5</p>
+                            </div>
+                        {% endfor %}
+
+                        <!-- Ajouter une nouvelle critique -->
+                        <a href="{% url 'add_review' ticket.id %}" class="add-review-link">Ajouter une Critique</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Section des Critiques des utilisateurs suivis -->
+    <div class="reviews-container">
+        <h2>Critiques des utilisateurs suivis</h2>
+        {% for review in reviews %}
+            <div class="review">
+                <div class="review-header">
+                    <div class="review-author">
+                        <strong>{{ review.user.username }}</strong>, {{ review.time_created|date:"d/m/Y H:i" }}
+                    </div>
+                    <div class="review-actions">
+                        {% if request.user == review.user %}
+                            <a href="{% url 'edit_review' review.id %}" title="Modifier" class="edit-button">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <form method="post" action="{% url 'delete_review' review.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-button" title="Supprimer">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+                <p>{{ review.body }}</p>
+                <p><strong>Note :</strong> {{ review.rating }}/5</p>
+                <p><strong>Critique du billet :</strong> {{ review.ticket.title }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

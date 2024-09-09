@@ -1,0 +1,34 @@
+{% extends 'litrevuweb/base.html' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+<div class="signup-container">
+    <h1>Inscription</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+        </div>
+        <p>150 caractères ou moins. Lettres, chiffres et @/./+/-/_ uniquement.</p>
+        <div class="form-group">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+        </div>
+        <ul>
+            <li>Votre mot de passe ne doit pas être trop similaire à vos autres informations personnelles.</li>
+            <li>Votre mot de passe doit contenir au moins 8 caractères</li>
+            <li>Votre mot de passe ne peut pas être un mot de passe couramment utilisé</li>
+            <li>Votre mot de passe ne peut pas être entièrement numérique.</li>
+            <li>Votre mot de passe ne doit pas être trop similaire à vos autres informations personnelles.</li>
+        </ul>
+        <div class="form-group">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+        </div>
+        <button type="submit" class="btn btn-primary">S'inscrire</button>
+    </form>
+    <p>Vous avez déjà un compte ? <a href="{% url 'login' %}">Connectez-vous ici</a></p>
+</div>
+{% endblock %}

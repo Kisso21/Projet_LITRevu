@@ -1,0 +1,12 @@
+{% extends 'litrevuweb/base.html' %}
+
+{% block title %}Créer un Billet{% endblock %}
+
+{% block content %}
+    <h2>Créer un Billet</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Créer</button>
+    </form>
+{% endblock %}

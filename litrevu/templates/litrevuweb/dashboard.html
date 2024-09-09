@@ -1,0 +1,62 @@
+{% extends 'litrevuweb/base.html' %}
+
+{% block title %}Tableau de Bord{% endblock %}
+
+{% block content %}
+    <h1>Bienvenue sur votre Tableau de Bord</h1>
+
+    <div class="stats">
+        <p><strong>Nombre total de billets :</strong> {{ total_tickets }}</p>
+        <p><strong>Nombre total de critiques :</strong> {{ total_reviews }}</p>
+    </div>
+    <h2>Vos Billets</h2>
+    <div class="tickets">
+        {% for ticket in tickets %}
+            <div class="ticket">
+                <h3>{{ ticket.title }}</h3>
+                <p>{{ ticket.description }}</p>
+                <p>{{ ticket.time_created|date:"M d, Y, g:i a" }}</p>
+                {% if ticket.image %}
+                    <img src="{{ ticket.image.url }}" alt="Image du billet" style="max-width: 200px;">
+                {% endif %}
+
+                <!-- Boutons de modification et de suppression -->
+                <div class="ticket-actions">
+                    <a href="{% url 'edit_ticket' ticket.id %}" title="Modifier" class="edit-button">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                    <form method="post" action="{% url 'delete_ticket' ticket.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button" title="Supprimer">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2>Vos Critiques</h2>
+    <div class="reviews">
+        {% for review in reviews %}
+<div class="review">
+    <h3>{{ review.title }}</h3>
+    <p>{{ review.body }}</p>
+    <p><strong>Note:</strong> {{ review.rating }}/5</p>
+
+    <!-- Utilisation des mêmes boutons que dans flux.html -->
+    <div class="ticket-actions">
+        <a href="{% url 'edit_review' review.id %}" class="edit-button">
+            <i class="fas fa-pencil-alt"></i>
+        </a>
+        <form action="{% url 'delete_review' review.id %}" method="post" class="delete-button">
+            {% csrf_token %}
+            <button type="submit" class="delete-button" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette critique ?');">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </form>
+    </div>
+</div>
+{% endfor %}
+    </div>
+{% endblock %}

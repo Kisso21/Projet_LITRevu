@@ -1,0 +1,14 @@
+{% extends 'litrevuweb/base.html' %}
+
+{% block title %}Modifier la Critique{% endblock %}
+
+{% block content %}
+<main>
+    <h1>Modifier la Critique</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Sauvegarder les modifications</button>
+    </form>
+</main>
+{% endblock %}

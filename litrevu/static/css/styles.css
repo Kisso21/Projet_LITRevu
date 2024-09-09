@@ -1,0 +1,284 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.6;
+}
+
+/* Header and Navigation */
+header {
+    width: 100%;
+    padding: 10px 0;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+header nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    color: #fff;
+    background-color: #007bff;
+}
+
+/* Main Content Area */
+main {
+    width: 95%;
+    max-width: 900px;
+}
+
+h1, h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, textarea:focus {
+    border-color: #007bff;
+}
+
+textarea {
+    resize: none;
+    height: 150px;
+}
+
+
+/* Ticket Styles */
+.ticket {
+    position: relative;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.ticket:hover {
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.ticket-content {
+    display: flex;
+    gap: 15px;
+}
+
+.ticket-image {
+    max-width: 150px;
+    width: 100%;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.ticket-info {
+    flex: 1;
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ticket-author {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.ticket-description {
+    margin: 10px 0;
+}
+
+/* Heart Icon for Follow/Unfollow */
+
+.follow-button i.fa-heart.subscribed {
+    color: red; /* Rouge quand abonné */
+}
+
+.follow-button i.fa-heart.not-subscribed {
+    color: black; /* Noir quand pas abonné */
+}
+
+.follow-button i.fa-heart:hover {
+    transform: scale(1.2); /* Légère mise en avant au survol */
+    transition: transform 0.3s ease;
+}
+
+
+/* Action Buttons (Edit, Delete) */
+.ticket-actions, .review-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-button i.fas, .delete-button i.fas {
+    transition: color 0.3s ease, transform 0.3s ease;
+    font-size: 16px;
+    color: #333;
+}
+
+.edit-button i.fas:hover, .delete-button i.fas:hover {
+    color: #007bff;
+    transform: scale(1.1);
+}
+
+.delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-button i.fas {
+    color: #ff4c4c;
+}
+
+.delete-button i.fas:hover {
+    color: #ff0000;
+    transform: scale(1.1);
+}
+
+/* Review Styles */
+.review {
+    margin-top: 15px;
+    padding: 10px;
+    border-top: 1px solid #eee;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.review-author {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.add-review-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.add-review-link:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    main {
+        width: 95%;
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .ticket-content {
+        flex-direction: column;
+    }
+
+    .ticket-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .ticket-actions, .review-actions {
+        justify-content: flex-start;
+    }
+}
+
+.login-container .form-group,
+.signup-container .form-group {
+    margin-bottom: 15px;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"],
+.signup-container input[type="text"],
+.signup-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus,
+.signup-container input[type="text"]:focus,
+.signup-container input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.login-container button[type="submit"],
+.signup-container button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-container button[type="submit"]:hover,
+.signup-container button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+

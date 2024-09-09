@@ -1,0 +1,65 @@
+{% extends 'litrevuweb/base.html' %}
+
+{% block title %}Gestion des Abonnements{% endblock %}
+
+{% block content %}
+<main>
+    <h1>Gestion des Abonnements</h1>
+
+    <!-- Champ texte pour entrer le nom d'utilisateur à suivre -->
+    <form method="POST" action="{% url 'manage_subscriptions' %}">
+        {% csrf_token %}
+        <input type="text" name="follow_username" placeholder="Nom d'utilisateur à suivre">
+        <button type="submit">S'abonner</button>
+    </form>
+
+    <!-- Affichage des messages d'erreur -->
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+
+    <!-- Résultats de la recherche -->
+    {% if found_users %}
+        <h2>Résultats de la recherche</h2>
+        <ul>
+            {% for user in found_users %}
+                <li>
+                    {{ user.username }}
+                    <form method="post" action="{% url 'manage_subscriptions' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="followed_user" value="{{ user.id }}">
+                        <button type="submit">S'abonner</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif search_query %}
+        <p>Aucun utilisateur trouvé pour "{{ search_query }}".</p>
+    {% endif %}
+
+    <!-- Utilisateurs auxquels vous êtes abonné -->
+    <h2>Vous êtes abonné à</h2>
+    <ul>
+        {% for subscription in subscriptions %}
+            <li>
+                {{ subscription.followed_user.username }}
+                <form method="post" action="{% url 'manage_subscriptions' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="unfollow_user_id" value="{{ subscription.followed_user.id }}">
+                    <button type="submit" title="Se désabonner" class="follow-button">
+                        <i class="fa-solid fa-heart subscribed"></i> <!-- Icône rouge -->
+                    </button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Utilisateurs qui sont abonnés à vous -->
+    <h2>Abonnés à vous</h2>
+    <ul>
+        {% for subscriber in subscribers %}
+            <li>{{ subscriber.user.username }}</li>
+        {% endfor %}
+    </ul>
+</main>
+{% endblock %}
