@@ -40,7 +40,7 @@
     <div class="reviews">
         {% for review in reviews %}
 <div class="review">
-    <h3>{{ review.title }}</h3>
+    <h3>{{ review.ticket.title }}</h3>
     <p>{{ review.body }}</p>
     <p><strong>Note:</strong> {{ review.rating }}/5</p>
 

@@ -29,15 +29,42 @@ def signup(request):
 
 @login_required
 def general_flux(request):
-    # Récupérer les 10 derniers billets créés
+    # Récupérer les 10 derniers billets et critiques
     latest_tickets = Ticket.objects.all().order_by('-time_created')[:10]
-    
-    # Gérer les abonnements
+    latest_reviews = Review.objects.all().order_by('-time_created')[:10]
+
+    # Fusionner les billets et critiques dans une seule liste
+    latest_items = []
+    user_reviews = []
+
+    for ticket in latest_tickets:
+        latest_items.append({
+            'type': 'ticket',
+            'item': ticket,
+        })
+        # Vérifier si l'utilisateur a déjà posté une critique pour ce billet
+        user_has_reviewed = Review.objects.filter(ticket=ticket, user=request.user).exists()
+        user_reviews.append({
+            'ticket_id': ticket.id,
+            'has_reviewed': user_has_reviewed,
+        })
+        
+    for review in latest_reviews:
+        latest_items.append({
+            'type': 'review',
+            'item': review,
+        })
+
+    # Trier les billets et critiques par date de création
+    latest_items = sorted(latest_items, key=lambda x: x['item'].time_created, reverse=True)
+
+    # Gérer les abonnements et la création de critiques
     if request.method == 'POST':
         follow_user_id = request.POST.get('follow_user_id')
         unfollow_user_id = request.POST.get('unfollow_user_id')
         ticket_id = request.POST.get('ticket_id')
-        
+
+        # Gérer l'abonnement
         if follow_user_id:
             followed_user = User.objects.get(id=follow_user_id)
             UserFollows.objects.create(user=request.user, followed_user=followed_user)
@@ -55,16 +82,17 @@ def general_flux(request):
             review.ticket = Ticket.objects.get(id=ticket_id)
             review.save()
             return redirect('general_flux')
-
     else:
         form = ReviewForm()
 
+    # Récupérer les abonnements de l'utilisateur
     user_follows_ids = UserFollows.objects.filter(user=request.user).values_list('followed_user_id', flat=True)
-    
+
     return render(request, 'litrevuweb/general_flux.html', {
-        'latest_tickets': latest_tickets,
+        'latest_items': latest_items,  # Passer la liste fusionnée
         'form': form,
         'user_follows_ids': user_follows_ids,
+        'user_reviews': user_reviews,  # Liste des billets avec indication si l'utilisateur a posté une critique
     })
 
 @login_required
