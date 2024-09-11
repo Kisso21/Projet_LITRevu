@@ -9,6 +9,9 @@ from .forms import TicketForm, ReviewForm, TicketReviewForm
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseForbidden
 from django.contrib import messages
+from itertools import chain
+from django.db.models import Q
+from operator import attrgetter
 
 
 # Vue pour la page d'accueil où les utilisateurs peuvent s'enregistrer ou se connecter
@@ -199,21 +202,26 @@ def delete_review(request, review_id):
 
 @login_required
 def flux(request):
-    # Récupérer l'utilisateur connecté
     user = request.user
     
-    # Obtenir tous les utilisateurs suivis par l'utilisateur connecté
+    # Obtenir les utilisateurs suivis
     followed_users = UserFollows.objects.filter(user=user).values_list('followed_user', flat=True)
     
-    # Récupérer les billets (tickets) des utilisateurs suivis
-    tickets = Ticket.objects.filter(user__in=followed_users).order_by('-time_created')
+    # Billets des utilisateurs suivis et de l'utilisateur connecté
+    tickets = Ticket.objects.filter(Q(user__in=followed_users) | Q(user=user)).order_by('-time_created')
     
-    # Récupérer les critiques (reviews) des utilisateurs suivis
-    reviews = Review.objects.filter(user__in=followed_users).order_by('-time_created')
+    # Critiques des utilisateurs suivis, et critiques sur les billets de l'utilisateur connecté
+    reviews = Review.objects.filter(Q(user__in=followed_users) | Q(ticket__user=user)).order_by('-time_created')
     
-    # Passer les billets et critiques séparément au template
-    return render(request, 'litrevuweb/flux.html', {'tickets': tickets, 'reviews': reviews})
-
+    # Fusionner les billets et critiques dans une seule liste triée
+    combined_items = sorted(
+        [{'type': 'ticket', 'content': ticket} for ticket in tickets] +
+        [{'type': 'review', 'content': review} for review in reviews],
+        key=lambda x: x['content'].time_created,
+        reverse=True
+    )
+    
+    return render(request, 'litrevuweb/flux.html', {'combined_items': combined_items})
 @login_required
 def manage_subscriptions(request):
     search_query = request.GET.get('search', '')
